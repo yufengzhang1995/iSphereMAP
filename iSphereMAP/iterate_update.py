@@ -1,7 +1,7 @@
 import numpy as np 
 from scipy.linalg import block_diag
 import pandas as pd
-from utils import *
+from .utils import *
 
 
 
