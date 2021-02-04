@@ -1,8 +1,10 @@
 import numpy as np 
 from scipy.linalg import block_diag
 import pandas as pd
+from .utils import *
+from .iterate_update import *
 
-def fun(X,Y,estPi,nlambda,grp_info):
+def iSphereMAP(X,Y,estPi,nlambda,grp_info):
     
     if X.shape == Y.shape:
         N,p = X.shape
