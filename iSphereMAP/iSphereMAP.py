@@ -24,6 +24,3 @@ def fun(X,Y,estPi,nlambda,grp_info):
         results = {'beta:' :Beta,'pi:':Pi}
 
         return results
-    else: 
-        print("Dimension does not match!")
-        break
