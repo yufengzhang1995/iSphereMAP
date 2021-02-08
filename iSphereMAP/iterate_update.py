@@ -54,7 +54,7 @@ def gradient_update_nogrp(X,Y,alpha = 1,convergence = 1e-4):
 ################ Estimate Pi ################
 ############################################
 
-def fitpi_CV(estPi,Ytrgt,Yhat,lambda_cv,grp_info):
+def fitpi_CV(estPi,sparse_method,Ytrgt,Yhat,lambda_cv,grp_info):
 
     """
     Input:
@@ -94,7 +94,7 @@ def fitpi_CV(estPi,Ytrgt,Yhat,lambda_cv,grp_info):
             Pi_perm = np.zeros(shape = (Pi_ols.shape[0],Pi_ols.shape[1]))
             
             for i in np.arange(Pi_perm.shape[0]):
-                Pi_perm[i,:] = Spars_Pi(Pi_ols[i,:],lambda_cv,estPi).T        
+                Pi_perm[i,:] = Sparse_Pi(Pi_ols[i,:],lambda_cv,sparse_method).T        
         else:
             Pi_perm  = np.reshape([1],(1,1)) 
         if (Pi_perm.shape[0] * Pi_perm.shape[1]) != len(ind)**2:
@@ -104,7 +104,7 @@ def fitpi_CV(estPi,Ytrgt,Yhat,lambda_cv,grp_info):
     Pi = block_diag(*Pi_all) 
     return Pi
 
-def find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info):
+def find_lambda_cv(estPi,sparse_method,p,N,Y,Yhat,nlambda,grp_info):
 
     """
     Cross-validation to find lambda
@@ -149,7 +149,8 @@ def find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info):
     for lambda_cv in lambda_all:
         for i in np.arange(nfolds):
             testIndexes = np.asarray(np.where(folds == i)).flatten()
-            Pi_i = fitpi_CV(estPi = "OLS",
+            Pi_i = fitpi_CV(estPi = "OLS", # estPi,sparse_method = "Top_one",Ytrgt,Yhat,lambda_cv,grp_info
+                            sparse_method = "Top_one",
                             Ytrgt = Y[:,testIndexes],
                             Yhat = Yhat[:,testIndexes],
                             lambda_cv = lambda_cv,

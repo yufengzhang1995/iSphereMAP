@@ -7,7 +7,7 @@ def norm_l2(mat):
         new_mat[i,:] = mat[i,:] / np.linalg.norm(mat[i,:])
     return new_mat
 
-def Spars_Pi(vec,lambda_cv,method):
+def Sparse_Pi(vec,lambda_cv,method):
     """
     method 1 : make the pi corresponding to biggest value be 1 and rest be zero
 
@@ -16,12 +16,12 @@ def Spars_Pi(vec,lambda_cv,method):
                 otherwise, make the pi corresponding to biggest value be 1 and rest be zero
     """
 
-    if method == "method_1":
+    if method == "Top_one":
         mask = np.zeros(vec.shape,dtype = bool)
         mask[np.argmax(vec)] = True
         vec[mask] = 1
         vec[~mask] = 0
-    elif method == "method_2":
+    elif method == "hard_threshold":
         vec_norm = vec / np.linalg.norm(vec)
         ind_max = np.where(vec_norm > lambda_cv)
         if len(ind_max) >= 1:
@@ -29,4 +29,17 @@ def Spars_Pi(vec,lambda_cv,method):
             mask[np.argmax(vec)] = True
             vec[mask] = 1
             vec[~mask] = 0
+    elif method == "top_3":
+        mask = np.zeros(vec.shape,dtype = bool)
+        mask[vec.argsort()[-3:][::-1]] = True
+        vec[mask] = 1
+        vec[~mask] = 0
+
+    return vec
+
+    
+    
+    
+    
+    
     return vec
