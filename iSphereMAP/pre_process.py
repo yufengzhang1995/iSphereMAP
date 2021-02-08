@@ -1,4 +1,6 @@
 import pyreader
+import pandas as pd
+import numpy as np
 
 def read_Rdta(file_path):
 
@@ -9,11 +11,6 @@ Input: Rdata consisting embeddings for X and Y and group information
 Output: Dictionary consisting embeddings for X and Y and group information
 
 """
-
-
-
-
-
 
     raw_data = pyreadr.read_r(file_path)
     X = raw_data['X'].to_numpy()
