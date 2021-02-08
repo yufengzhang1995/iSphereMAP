@@ -104,7 +104,7 @@ def fitpi_CV(estPi,sparse_method,Ytrgt,Yhat,lambda_cv,grp_info):
     Pi = block_diag(*Pi_all) 
     return Pi
 
-def find_lambda_cv(estPi,sparse_method,p,N,Y,Yhat,nlambda,grp_info):
+def find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info,sparse_method):
 
     """
     Cross-validation to find lambda
@@ -150,11 +150,11 @@ def find_lambda_cv(estPi,sparse_method,p,N,Y,Yhat,nlambda,grp_info):
         for i in np.arange(nfolds):
             testIndexes = np.asarray(np.where(folds == i)).flatten()
             Pi_i = fitpi_CV(estPi = "OLS", # estPi,sparse_method = "Top_one",Ytrgt,Yhat,lambda_cv,grp_info
-                            sparse_method = "Top_one",
                             Ytrgt = Y[:,testIndexes],
                             Yhat = Yhat[:,testIndexes],
                             lambda_cv = lambda_cv,
-                            grp_info = grp_info)
+                            grp_info = grp_info,
+                            sparse_method = "Top_one")
             Yfit = np.dot(Pi_i,Yhat)
             Yfit = norm_l2(Yfit)
         
