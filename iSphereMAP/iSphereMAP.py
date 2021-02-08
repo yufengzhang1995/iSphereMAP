@@ -3,6 +3,7 @@ from scipy.linalg import block_diag
 import pandas as pd
 from .utils import *
 from .iterate_update import *
+from .pre_process import *
 
 def iSphereMAP(file_path,estPi,sparse_method = "Top_one",nlambda):
 
