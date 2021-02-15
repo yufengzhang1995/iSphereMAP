@@ -37,13 +37,13 @@ def iSphereMAP(file_path,estPi,nlambda,sparse_method = "Top_one"):
         Yhat = X.dot(Beta)
 
         # Lambda searching
-        cv_rslt = find_lambda_cv(estPi = estPi,p = p,N = N,Y = Y,Yhat = Yhat,nlambda = nlambda,grp_info = grp_info,sparse_method)
+        cv_rslt = find_lambda_cv(estPi = estPi,p = p,N = N,Y = Y,Yhat = Yhat,nlambda = nlambda,grp_info = grp_info,sparse_method = sparse_method)
         cv_err = cv_rslt["cv_err"]
         lambda_all = cv_rslt["lambda_all"]
         lambda_cv = lambda_all[np.argmin(cv_err)]
 
         # Pi estimation
-        Pi = fitpi_CV(estPi = estPi,Ytrgt = Y,Yhat = Yhat,lambda_cv = lambda_cv,grp_info = grp_info,sparse_method)
+        Pi = fitpi_CV(estPi = estPi,Ytrgt = Y,Yhat = Yhat,lambda_cv = lambda_cv,grp_info = grp_info,sparse_method = sparse_method)
         ind = np.asarray(np.where(np.amax(norm_l2(Pi),axis = 0) == 1)).flatten()
         X_match = Pi.dot(X)[ind,:]
         Y_match = Y[ind,:]

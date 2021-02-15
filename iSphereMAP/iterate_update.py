@@ -54,7 +54,7 @@ def gradient_update_nogrp(X,Y,alpha = 1,convergence = 1e-4):
 ################ Estimate Pi ################
 ############################################
 
-def fitpi_CV(estPi,sparse_method,Ytrgt,Yhat,lambda_cv,grp_info):
+def fitpi_CV(estPi,Ytrgt,Yhat,lambda_cv,grp_info,sparse_method,k):
 
     """
     Input:
@@ -83,18 +83,22 @@ def fitpi_CV(estPi,sparse_method,Ytrgt,Yhat,lambda_cv,grp_info):
             X_pi = Yhat[ind,:].T
             Y_pi = Ytrgt[ind,:].T
             if estPi == 'OLS':
+#                 print("OLS")
                 Pi_ols = np.dot(np.dot(np.linalg.inv(np.dot(X_pi.T,X_pi) + 
                                          np.diag(np.repeat(1e-10, len(ind)))),X_pi.T),Y_pi).T
             elif estPi == 'cosine':
+#                 print("cosine")
                 Pi_ols = np.dot(norm_l2(X_pi.T),norm_l2(Y_pi.T).T).T
                 
             elif estPi == 'spherical':
+#                 print("spherical")
                 Pi_ols = gradient_update_nogrp(X_pi,Y_pi,alpha = 1,convergence = 1e-10)
             
             Pi_perm = np.zeros(shape = (Pi_ols.shape[0],Pi_ols.shape[1]))
             
             for i in np.arange(Pi_perm.shape[0]):
-                Pi_perm[i,:] = Sparse_Pi(Pi_ols[i,:],lambda_cv,sparse_method).T        
+                # vec,method,lambda_cv = None,k = None
+                Pi_perm[i,:] = Sparse_Pi(Pi_ols[i,:],sparse_method,lambda_cv,k).T        
         else:
             Pi_perm  = np.reshape([1],(1,1)) 
         if (Pi_perm.shape[0] * Pi_perm.shape[1]) != len(ind)**2:
@@ -104,7 +108,7 @@ def fitpi_CV(estPi,sparse_method,Ytrgt,Yhat,lambda_cv,grp_info):
     Pi = block_diag(*Pi_all) 
     return Pi
 
-def find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info,sparse_method):
+def find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info,sparse_method,k):
 
     """
     Cross-validation to find lambda
@@ -149,12 +153,13 @@ def find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info,sparse_method):
     for lambda_cv in lambda_all:
         for i in np.arange(nfolds):
             testIndexes = np.asarray(np.where(folds == i)).flatten()
-            Pi_i = fitpi_CV(estPi = "OLS", # estPi,sparse_method = "Top_one",Ytrgt,Yhat,lambda_cv,grp_info
-                            Ytrgt = Y[:,testIndexes],
-                            Yhat = Yhat[:,testIndexes],
-                            lambda_cv = lambda_cv,
-                            grp_info = grp_info,
-                            sparse_method = "Top_one")
+            Pi_i = fitpi_CV(estPi, # estPi,sparse_method = "Top_one",Ytrgt,Yhat,lambda_cv,grp_info
+                            Y[:,testIndexes],
+                            Yhat[:,testIndexes],
+                            lambda_cv,
+                            grp_info,
+                            sparse_method,
+                            k)
             Yfit = np.dot(Pi_i,Yhat)
             Yfit = norm_l2(Yfit)
         
