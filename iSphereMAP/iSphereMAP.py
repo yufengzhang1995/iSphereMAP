@@ -6,7 +6,7 @@ from .utils import *
 from .iterate_update import *
 from .pre_process import *
 
-def iSphereMAP(file_path,estPi,nlambda,sparse_method = "Top_one",k = 3):
+def iSphereMAP(X,Y,group_information,estPi,nlambda,sparse_method = "Top_one",k = 3):
 
 
     """
@@ -21,10 +21,10 @@ def iSphereMAP(file_path,estPi,nlambda,sparse_method = "Top_one",k = 3):
     dictionary consisting estimated W and Pi
     """
 
-    data = read_Rdta(file_path)
-    X = data["X"]
-    Y = data["Y"]
-    grp_info = data["grp_info"]
+    # data = read_Rdta(file_path)
+    # X = data["X"]
+    # Y = data["Y"]
+    # grp_info = data["grp_info"]
 
     if X.shape != Y.shape:
         sys.exit('The dimensions of X and Y do not match!')
@@ -53,7 +53,7 @@ def iSphereMAP(file_path,estPi,nlambda,sparse_method = "Top_one",k = 3):
         # Using matched data to estimate W again
         Beta_update = gradient_update_nogrp(X_match,Y_match,alpha=1,convergence=1e-10)
 
-        results = {'beta:' :Beta_update,'pi:':Pi}
+        results = {'beta' :Beta_update,'pi':Pi}
 
         return results
 
