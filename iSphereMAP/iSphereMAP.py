@@ -6,7 +6,7 @@ from .utils import *
 from .iterate_update import *
 from .pre_process import *
 
-def iSphereMAP(X,Y,group_information,estPi,nlambda,sparse_method = "Top_one",k = 3):
+def iSphereMAP(X,Y,grp_info,estPi,nlambda,sparse_method = "Top_one",k = 3):
 
 
     """
