@@ -48,8 +48,6 @@ python3 iSphereMAP.py
  ```
 
 # Publication
---------
-
 If you use this software for academic research, please cite the paper:
 ```
 @article{shi2020spherical,
