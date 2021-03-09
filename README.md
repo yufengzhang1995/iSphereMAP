@@ -9,8 +9,11 @@ I would like to express my genuine appreciation for Prof. Xu shi for her patient
 
 @Author: Yufeng Zhang (adapted from Prof. Xu Shi's R code)
 
+If you use this software for academic research, [please cite the relevant paper(s)](#publications).
+
 [1 Installation](#installation)\
-[2 Usage](#usage)
+[2 Usage](#usage)\
+[3 Publication](#publication)
 
 
 # Installation
@@ -44,5 +47,17 @@ python3 iSphereMAP.py
  python3 iSphereMAP.py source.txt target.txt group_info.txt 'OLS' 5 'hard_threshold' beta.txt Pi.txt 
  ```
 
+# Publication
+--------
 
-
+If you use this software for academic research, please cite the paper:
+```
+@article{shi2020spherical,
+  title={Spherical regression under mismatch corruption with application to automated knowledge translation},
+  author={Shi, Xu and Li, Xiaoou and Cai, Tianxi},
+  journal={Journal of the American Statistical Association},
+  pages={1--12},
+  year={2020},
+  publisher={Taylor \& Francis}
+}
+```
