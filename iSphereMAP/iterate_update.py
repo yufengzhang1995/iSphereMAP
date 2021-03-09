@@ -1,7 +1,7 @@
 import numpy as np 
 from scipy.linalg import block_diag
 import pandas as pd
-from .utils import *
+from utils import *
 
 
 
@@ -66,10 +66,12 @@ def fitpi_CV(estPi,Ytrgt,Yhat,lambda_cv,grp_info,sparse_method,k):
     
     Output: estimated rotation matrix
     """
-
     # normalization just in case
     Yhat = norm_l2(Yhat) 
     Ytrgt = norm_l2(Ytrgt) 
+    grp_info = np.squeeze(grp_info)
+
+
     
     # gather group information 
     ugrp = np.unique(grp_info) # the array consisting group indexes
@@ -78,7 +80,8 @@ def fitpi_CV(estPi,Ytrgt,Yhat,lambda_cv,grp_info,sparse_method,k):
 
     for i in np.arange(n):
         # extract the data point in the same group
-        ind = np.asarray(np.where(grp_info == ugrp[i])).flatten()
+        ind = np.array(np.where(grp_info == ugrp[i])).flatten()
+        # print(ind)
         if len(ind) > 1:
             X_pi = Yhat[ind,:].T
             Y_pi = Ytrgt[ind,:].T
@@ -87,17 +90,24 @@ def fitpi_CV(estPi,Ytrgt,Yhat,lambda_cv,grp_info,sparse_method,k):
                 Pi_ols = np.dot(np.dot(np.linalg.inv(np.dot(X_pi.T,X_pi) + 
                                          np.diag(np.repeat(1e-10, len(ind)))),X_pi.T),Y_pi).T
             elif estPi == 'cosine':
-#                 print("cosine")
+                # print("cosine")
                 Pi_ols = np.dot(norm_l2(X_pi.T),norm_l2(Y_pi.T).T).T
+
                 
             elif estPi == 'spherical':
 #                 print("spherical")
                 Pi_ols = gradient_update_nogrp(X_pi,Y_pi,alpha = 1,convergence = 1e-10)
             
+            elif estPi == 'lasso':
+                Pi_ols = np.zeros((X_pi.shape[1],X_pi.shape[1]))
+                for i in np.arange(X_pi.shape[1]):
+                    clf = linear_model.Lasso(alpha=0.001)
+                    clf.fit(X_pi,Y_pi[:,i])
+                    Pi_ols[:,i] = clf.coef_
+                    
             Pi_perm = np.zeros(shape = (Pi_ols.shape[0],Pi_ols.shape[1]))
             
             for i in np.arange(Pi_perm.shape[0]):
-                # vec,method,lambda_cv = None,k = None
                 Pi_perm[i,:] = Sparse_Pi(Pi_ols[i,:],sparse_method,lambda_cv,k).T        
         else:
             Pi_perm  = np.reshape([1],(1,1)) 
@@ -105,7 +115,10 @@ def fitpi_CV(estPi,Ytrgt,Yhat,lambda_cv,grp_info,sparse_method,k):
             print("error")
             break
         Pi_all.append(Pi_perm)
+    # print(sum([len(item) for item in Pi_all]))
+    # print(Pi_all[0].shape)
     Pi = block_diag(*Pi_all) 
+
     return Pi
 
 def find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info,sparse_method,k):

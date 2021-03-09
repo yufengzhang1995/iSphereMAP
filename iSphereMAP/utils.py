@@ -5,16 +5,22 @@ def read_mat_file(vector_file):
     with open(vector_file,'r') as f:
         embed = []
         for i,line in enumerate(f):
-            elems = line.rstrip('\n').split(',')
+            elems = line.rstrip('\n').split(' ')
             embed.append(elems)
     return np.array(embed).astype(float)
 
 
 
 
-def file_write(mat,file_name):
-    with open(file_name, "w") as output:
-        output.write(str(mat))
+# def file_write(mat,file_name):
+#     txt_file = []
+
+#     for i in np.arange(mat.shape[0]):
+#         line = ' '.join(mat[i,:])
+#         txt_file.append(line)
+#     txt_file = '\n'.join(txt_file)
+#     with open(file_name, "w") as output:
+#         output.write(str(txt_file))
 
 
 

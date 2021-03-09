@@ -3,9 +3,9 @@ import argparse
 from scipy.linalg import block_diag
 import pandas as pd
 import sys
-from .utils import *
-from .iterate_update import *
-from .pre_process import *
+from utils import *
+from iterate_update import *
+from pre_process import *
 
 # def iSphereMAP(X,Y,grp_info,estPi,nlambda,sparse_method = "Top_one",k = 3):
 def main():
@@ -21,6 +21,7 @@ def main():
     parser.add_argument('Pi_output', help = 'the estimated pi')
     parser.add_argument('--k', type = int, default = 3, help = 'k for Top_k method in sparse_Pi')
     parser.add_argument('--seed', type = int, default = 0, help = 'the random seed (defaults to 0)')
+    args = parser.parse_args()
     
     np.random.seed(args.seed)
 
@@ -31,6 +32,8 @@ def main():
     X = read_mat_file(args.src_input)
     Y = read_mat_file(args.trg_input) 
     grp_info =  read_mat_file(args.group_information) 
+
+
 
     estPi = args.estPi
     nlambda = args.nlambda
@@ -70,10 +73,10 @@ def main():
        # Write mapped embeddings
         # Betafile = open(args.Beta_output, mode='w', encoding=args.encoding, errors='surrogateescape')
         # Pifile = open(args.Pi_output, mode='w', encoding=args.encoding, errors='surrogateescape')
-        file_write(Beta_update,Betafile)
-        file_write(Pi,Pifile)
-        Betafile.close()
-        Pifile.close()
+        np.savetxt(args.Beta_output,Beta_update)
+        np.savetxt(args.Pi_output,Pi)
+        # Betafile.close()
+        # Pifile.close()
 
 
 if __name__ == '__main__':
