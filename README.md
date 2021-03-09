@@ -37,12 +37,11 @@ The input file should be numerical matrix in txt file
 **Help on using tool**
 ```
 python3 iSphereMAP.py
-
 ```
  
 **Get rotation matrix and weight matrix**
  ```
-python3 iSphereMAP.py source.txt target.txt group_info.txt 'OLS' 5 'hard_threshold' beta.txt Pi.txt 
+ python3 iSphereMAP.py source.txt target.txt group_info.txt 'OLS' 5 'hard_threshold' beta.txt Pi.txt 
  ```
 
 
