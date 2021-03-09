@@ -27,27 +27,10 @@ You can install the package with following command:
   ``` 
   
 **Help on using tool **
-```console
-python3 iSphereMAP.py
-
-positional arguments:
-  src_input             the input source embeddings
-  trg_input             the input target embeddings
-  group_information     the group_information for source input
-  {OLS,cosine,spherical,lasso}
-                        Methods to estimate Pi
-  nlambda               evenly break [1e-5, 1-1e-5] into intervals
-  {Top_one,hard_threshold,Top_k}
-                        Methods to sparse Pi
-  Beta_output           the estimated beta
-  Pi_output             the estimated pi
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --k K                 k for Top_k method in sparse_Pi
-  --seed SEED           the random seed (defaults to 0)
-
 ```
+python3 iSphereMAP.py
+```
+
  
  
  
