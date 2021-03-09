@@ -20,8 +20,6 @@ I would like to express my genuine appreciation for Prof. Xu shi for her patient
 - pandas
 - matplotlib
 
-
-**Input file format**
 The input file should be numerical matrix in txt file
 
 **Install from GitHub**\
@@ -30,6 +28,12 @@ You can install the package with following command:
     $ git clone https://github.com/yufengzhang1995/iSphereMAP.git
   ``` 
   
+
+# Usage
+**Input file format**
+The input file should be numerical matrix in txt file
+
+
 **Help on using tool**
 ```
 python3 iSphereMAP.py
