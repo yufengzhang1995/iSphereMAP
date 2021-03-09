@@ -1,4 +1,5 @@
 import numpy as np 
+import argparse
 from scipy.linalg import block_diag
 import pandas as pd
 import sys
@@ -6,29 +7,40 @@ from .utils import *
 from .iterate_update import *
 from .pre_process import *
 
-def iSphereMAP(X,Y,grp_info,estPi,nlambda,sparse_method = "Top_one",k = 3):
-
-
-    """
-    Input: 
+# def iSphereMAP(X,Y,grp_info,estPi,nlambda,sparse_method = "Top_one",k = 3):
+def main():
+    # parse command line arguments
+    parser = argparse.ArgumentParser(description = 'Map ICD code embeddings in two institutions into a shared space')
+    parser.add_argument('src_input', help = 'the input source embeddings')
+    parser.add_argument('trg_input', help = 'the input target embeddings')
+    parser.add_argument('group_information', help = 'the group_information for source input')
+    parser.add_argument('estPi', choices = ['OLS', 'cosine','spherical','lasso'],default = 'cosine', help = 'Methods to estimate Pi')
+    parser.add_argument('nlambda', type = int, default = 5, help = 'evenly break [1e-5, 1-1e-5] into intervals')
+    parser.add_argument('sparse_method', choices = ['Top_one', 'hard_threshold','Top_k'], default = 'cosine', help = 'Methods to sparse Pi')
+    parser.add_argument('Beta_output', help = 'the estimated beta')
+    parser.add_argument('Pi_output', help = 'the estimated pi')
+    parser.add_argument('--k', type = int, default = 3, help = 'k for Top_k method in sparse_Pi')
+    parser.add_argument('--seed', type = int, default = 0, help = 'the random seed (defaults to 0)')
     
-    file_path: 
-    estPi: string; "OLS", "cosine" or "spherical"
-    nlambda: scalar
-    =============================================
-    Output: 
+    np.random.seed(args.seed)
 
-    dictionary consisting estimated W and Pi
-    """
+    # read files
+    # srcfile = open(args.src_input, encoding = 'utf-8', errors='surrogateescape')
+    # trgfile = open(args.trg_input, encoding = 'utf-8', errors='surrogateescape')
+    # grpfile = open(args.group_information, encoding = 'utf-8', errors='surrogateescape')
+    X = read_mat_file(args.src_input)
+    Y = read_mat_file(args.trg_input) 
+    grp_info =  read_mat_file(args.group_information) 
 
-    # data = read_Rdta(file_path)
-    # X = data["X"]
-    # Y = data["Y"]
-    # grp_info = data["grp_info"]
-
+    estPi = args.estPi
+    nlambda = args.nlambda
+    sparse_method = args.sparse_method
+    
+    # check dimension match
     if X.shape != Y.shape:
-        sys.exit('The dimensions of X and Y do not match!')
-    
+        print('The dimensions of X and Y do not match!')
+        sys.exit(-1)
+
     if X.shape == Y.shape:
         N,p = X.shape
 
@@ -37,13 +49,13 @@ def iSphereMAP(X,Y,grp_info,estPi,nlambda,sparse_method = "Top_one",k = 3):
         Yhat = X.dot(Beta)
 
         # Lambda searching
-        cv_rslt = find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info,sparse_method,k)
+        cv_rslt = find_lambda_cv(estPi,p,N,Y,Yhat,nlambda,grp_info,sparse_method,args.k)
         cv_err = cv_rslt["cv_err"]
         lambda_all = cv_rslt["lambda_all"]
         lambda_cv = lambda_all[np.argmin(cv_err)]
 
         # Pi estimation
-        Pi = fitpi_CV(estPi,Y,Yhat,lambda_cv,grp_info,sparse_method,k)
+        Pi = fitpi_CV(estPi,Y,Yhat,lambda_cv,grp_info,sparse_method,args.k)
         ind = np.asarray(np.where(np.amax(norm_l2(Pi),axis = 0) == 1)).flatten()
         X_match = Pi.dot(X)[ind,:]
         Y_match = Y[ind,:]
@@ -55,27 +67,14 @@ def iSphereMAP(X,Y,grp_info,estPi,nlambda,sparse_method = "Top_one",k = 3):
 
         results = {'beta' :Beta_update,'pi':Pi}
 
-        return results
+       # Write mapped embeddings
+        # Betafile = open(args.Beta_output, mode='w', encoding=args.encoding, errors='surrogateescape')
+        # Pifile = open(args.Pi_output, mode='w', encoding=args.encoding, errors='surrogateescape')
+        file_write(Beta_update,Betafile)
+        file_write(Pi,Pifile)
+        Betafile.close()
+        Pifile.close()
 
-# def iSphereMAP(X,Y,estPi,nlambda,grp_info):
-    
-#     if X.shape == Y.shape:
-#         N,p = X.shape
-#         Beta = gradient_update_nogrp(X,Y,alpha = 1,convergence = 1e-10)
-#         Yhat = X.dot(Beta)
-#         cv_rslt = find_lambda_cv(estPi = estPi,p = p,N = N,Y = Y,Yhat = Yhat,nlambda = nlambda,grp_info = grp_info)
-#         cv_err = cv_rslt["cv_err"]
 
-#         lambda_all = cv_rslt["lambda_all"]
-#         lambda_cv = lambda_all[np.argmin(cv_err)]
-#         Pi = fitpi_CV(estPi = estPi,Ytrgt = Y,Yhat = Yhat,lambda_cv = lambda_cv,grp_info = grp_info)
-#         ind = np.asarray(np.where(np.amax(norm_l2(Pi),axis = 0) == 1)).flatten()
-#         X_match = Pi.dot(X)[ind,:]
-#         Y_match = Y[ind,:]
-#         index_matched = grp_info[ind]
-#         ugrp_matched = np.unique(index_matched)
-#         Beta_update = gradient_update_nogrp(X_match,Y_match,alpha=1,convergence=1e-10)
-
-#         results = {'beta:' :Beta,'pi:':Pi}
-
-#         return results
+if __name__ == '__main__':
+    main()

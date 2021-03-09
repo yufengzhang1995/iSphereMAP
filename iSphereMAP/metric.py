@@ -42,7 +42,7 @@ def cross_validation(split_size,source,target,method,seed = 4):
         target_embed = target_all[i,:,:]
         W = learn_transformation(source_embed,target_embed)
         Y_hat = np.matmul(source_embed, W)
-        output.append(metric(method,Y_hat,train_embed))
+        output.append(metric(method,Y_hat,target_embed))
     return sum(output)/len(output)
 
 
