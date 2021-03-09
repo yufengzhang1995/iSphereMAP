@@ -20,22 +20,24 @@ I would like to express my genuine appreciation for Prof. Xu shi for her patient
 - pandas
 - matplotlib
 
+
+**Input file format**
+The input file should be numerical matrix in txt file
+
 **Install from GitHub**\
 You can install the package with following command:
   ```console
     $ git clone https://github.com/yufengzhang1995/iSphereMAP.git
   ``` 
   
-**Help on using tool **
+**Help on using tool**
 ```
 python3 iSphereMAP.py
-```
 
- 
- 
+```
  
 **Get rotation matrix and weight matrix**
- ```console
+ ```
 python3 iSphereMAP.py source.txt target.txt group_info.txt 'OLS' 5 'hard_threshold' beta.txt Pi.txt 
  ```
 
