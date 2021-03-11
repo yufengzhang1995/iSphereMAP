@@ -1,5 +1,6 @@
 # iSphereMAP for Shi Lab
-Python-based common computational tools for spherical regression under mismatch corruption
+Python-based common computational tools for spherical regression under mismatch corruption:
+Map ICD code embeddings in two institutions into a shared space
 
 
 # Acknowledgements
@@ -39,6 +40,22 @@ You can install the package with following command:
 The input file should be numerical matrix in txt file
 
 
+* positional arguments:
+  src_input             the input source embeddings(txt file)
+  trg_input             the input target embeddings(txt file)
+  group_information     the group_information for source input(txt file)
+  {OLS,cosine,spherical,lasso} Methods to estimate Pi (string)
+  nlambda               evenly break [1e-5, 1-1e-5] into intervals (integer)
+  {Top_one,hard_threshold,Top_k}
+                        Methods to sparse Pi (string)
+  Beta_output           the estimated beta (string, indicating path)
+  Pi_output             the estimated pi (string, indicating path)
+
+* optional arguments:
+  -h, --help            show this help message and exit
+  --k K                 k for Top_k method in sparse_Pi (integer)
+  --seed SEED           the random seed (defaults to 0) (integer)
+
 **Help on using tool**
 ```
 python3 iSphereMAP.py
@@ -51,9 +68,12 @@ python3 iSphereMAP.py
 # Example
 
 
-```
+Using data under example_data directory
 
 ```
+python3 iSphereMAP.py ../example_data/en_overlap.txt ../example_data/it_overlap.txt ../example_data/group_info.txt 'cosine' 5 'hard_threshold' beta.txt Pi.txt
+```
+
 
 
 
