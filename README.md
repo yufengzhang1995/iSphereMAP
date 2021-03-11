@@ -9,8 +9,12 @@ I would like to express my genuine appreciation for Prof. Xu shi for her patient
 
 @Author: Yufeng Zhang (adapted from Prof. Xu Shi's R code)
 
+If you use this software for academic research, [please cite the relevant paper(s)](#publications).
+
 [1 Installation](#installation)\
-[2 Usage](#usage)
+[2 Usage](#usage)\
+[3 Example](#example)
+[4 Publication](#publication)
 
 
 # Installation
@@ -20,24 +24,47 @@ I would like to express my genuine appreciation for Prof. Xu shi for her patient
 - pandas
 - matplotlib
 
+The input file should be numerical matrix in txt file
+
 **Install from GitHub**\
 You can install the package with following command:
   ```console
     $ git clone https://github.com/yufengzhang1995/iSphereMAP.git
-    $ cd iSphereMAP
-    $ python setup.py install
-  ```
- **Generate random samples from finite mixture of von Mises-Fisher Distributions**
- ```console
- >>> from iSphereMAP import *
- >>> rmovMF(n,theta,alpha)
- ```
- 
- **Get rotation matrix and weight matrix**
- ```console
- >>>iSphereMAP(X = X,Y = Y,estPi = "cosine",nlambda = 5,grp_info = grp_info)
- ```
- 
- ..to be done...
+  ``` 
+  
+
+# Usage
+**Input file format**
+The input file should be numerical matrix in txt file
 
 
+**Help on using tool**
+```
+python3 iSphereMAP.py
+```
+ 
+**Get rotation matrix and weight matrix**
+ ```
+ python3 iSphereMAP.py source.txt target.txt group_info.txt 'OLS' 5 'hard_threshold' beta.txt Pi.txt 
+ ```
+# Example
+
+
+```
+
+```
+
+
+
+# Publication
+If you use this software for academic research, please cite the paper:
+```
+@article{shi2020spherical,
+  title={Spherical regression under mismatch corruption with application to automated knowledge translation},
+  author={Shi, Xu and Li, Xiaoou and Cai, Tianxi},
+  journal={Journal of the American Statistical Association},
+  pages={1--12},
+  year={2020},
+  publisher={Taylor \& Francis}
+}
+```
