@@ -14,7 +14,7 @@ If you use this software for academic research, [please cite the relevant paper(
 
 [1 Installation](#installation)\
 [2 Usage](#usage)\
-[3 Example](#example)
+[3 Example](#example)\
 [4 Publication](#publication)
 
 
