@@ -6,8 +6,6 @@ Map ICD code embeddings in two institutions into a shared space
 # Acknowledgements
 I would like to express my genuine appreciation for Prof. Xu shi for her patient help and instructive suggestions. 
 
-## -- [NOT FINISHED YET] -- ##
-
 @Author: Yufeng Zhang (adapted from Prof. Xu Shi's R code)
 
 If you use this software for academic research, [please cite the relevant paper(s)](#publications).
