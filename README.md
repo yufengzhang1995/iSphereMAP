@@ -13,7 +13,8 @@ If you use this software for academic research, [please cite the relevant paper(
 
 [1 Installation](#installation)\
 [2 Usage](#usage)\
-[3 Publication](#publication)
+[3 Example](#example)
+[4 Publication](#publication)
 
 
 # Installation
@@ -46,6 +47,14 @@ python3 iSphereMAP.py
  ```
  python3 iSphereMAP.py source.txt target.txt group_info.txt 'OLS' 5 'hard_threshold' beta.txt Pi.txt 
  ```
+# Example
+
+
+```
+
+```
+
+
 
 # Publication
 If you use this software for academic research, please cite the paper:
