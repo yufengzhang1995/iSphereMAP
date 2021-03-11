@@ -15,7 +15,6 @@ The package requires group information therefore there is a dummy group informat
 - group_info.txt
 
 # results:
-
 the output file should be beta.txt (weight matrix) and Pi.txt (rotation matrix)
 
 
