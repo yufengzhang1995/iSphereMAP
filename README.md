@@ -21,6 +21,7 @@ If you use this software for academic research, [please cite the relevant paper(
 **Required Packages**
 - numpy
 - scipy
+- sklearn
 - pandas
 - matplotlib
 
