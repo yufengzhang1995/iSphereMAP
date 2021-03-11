@@ -39,7 +39,7 @@ You can install the package with following command:
 **Input file format**
 The input file should be numerical matrix in txt file
 
-
+```
 * positional arguments:
   src_input             the input source embeddings(txt file)
   trg_input             the input target embeddings(txt file)
@@ -55,6 +55,7 @@ The input file should be numerical matrix in txt file
   -h, --help            show this help message and exit
   --k K                 k for Top_k method in sparse_Pi (integer)
   --seed SEED           the random seed (defaults to 0) (integer)
+```
 
 **Help on using tool**
 ```
