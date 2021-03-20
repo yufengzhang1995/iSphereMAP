@@ -1,6 +1,6 @@
 # iSphereMAP for Shi Lab
 Python-based common computational tools for spherical regression under mismatch corruption:
-Map ICD code embeddings in two institutions into a shared space
+Map ICD code embeddings between two institutions
 
 
 # Acknowledgements
